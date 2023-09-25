@@ -4,44 +4,53 @@ import Swal from "sweetalert2";
 
 const UpdateCoffee = () => {
     const coffee = useLoaderData()
+
     const { _id, name, details, photo, quantity, supplier, taste } = coffee
 
-    const handleUpdate = _id => {
-
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                fetch(`http://localhost:5000/coffee/${_id}`, {
-                    method: "DELETE"
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.deletedCount > 0) {
-                            Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted.',
-                                'success'
-                            )
-                        }
-                    })
+    const handleAddCoffee = event => {
+        event.preventDefault();
+        const form = event.target;
+        const name = form.name.value;
+        const quantity = form.quantity.value;
+        const supplier = form.supplier.value;
+        const taste = form.taste.value;
+        const category = form.category.value;
+        const details = form.details.value;
+        const photo = form.photo.value;
+        const updateCoffee = { name, quantity, supplier, taste, category, details, photo }
+        console.log(updateCoffee)
 
 
-                console.log("delete")
-            }
+        // send data to the server 
+
+
+        fetch(`http://localhost:5000/coffee/${_id}`, {
+            method: 'PUT',
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(updateCoffee)
         })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.modifiedCount > 0) {
+                    Swal.fire({
+                        title: 'success',
+                        text: 'coffee updated  success',
+                        icon: 'success',
+                        confirmButtonText: 'success'
+                    })
+                }
+            })
+
+
+
     }
+
+
     return (
         <div className="bg-[#F4F3F0] p-7">
             <h2 className="text-3xl font-extrabold text-center">Update a Coffee</h2>
-            <form onSubmit={handleUpdate}>
+            <form onSubmit={handleAddCoffee}>
                 {/* from row name and quantity */}
                 <div className="md:flex gap-5 container mx-auto w-100% mt-5">
                     <div className="form-control md:w-1/2 ">

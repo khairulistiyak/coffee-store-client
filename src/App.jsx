@@ -3,13 +3,15 @@
 import { Link, useLoaderData } from 'react-router-dom'
 import './App.css'
 import CoffeeCard from './compunent/coffeeCard'
+import { useState } from 'react'
 
 
 function App() {
   // const [count, setCount] = useState(0)
 
 
-  const coffees = useLoaderData()
+  const loadedCoffees = useLoaderData()
+  const [coffees, setCoffees] = useState(loadedCoffees)
   console.log
   return (
     <>
@@ -21,7 +23,9 @@ function App() {
         <Link to='updateCoffee'>  <button className='btn '>updateCoffee</button></Link>
         <div className='grid md:grid-cols-2 gap-4 mt-20'>
           {
-            coffees.map(coffee => <CoffeeCard coffee={coffee} key={coffee._id}></CoffeeCard>)
+            coffees.map(coffee => <CoffeeCard coffee={coffee} coffees={coffees} setCoffees={setCoffees} key={coffee._id}
+
+            ></CoffeeCard>)
           }
         </div>
       </div>

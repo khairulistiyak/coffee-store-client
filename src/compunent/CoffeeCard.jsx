@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
 
 
     console.log(coffee)
-    const { _id, name, details, photo, quantity, supplier, taste } = coffee
+    const { _id, name, photo, quantity, supplier, } = coffee
 
     const handleDelete = _id => {
 
@@ -32,6 +32,8 @@ const CoffeeCard = ({ coffee }) => {
                                 'Your file has been deleted.',
                                 'success'
                             )
+                            const remaining = coffees.filter(coffee => coffee._id !== _id)
+                            setCoffees(remaining)
                         }
                     })
 
@@ -42,7 +44,7 @@ const CoffeeCard = ({ coffee }) => {
     }
     return (
         <div>
-            <div className="card card-side bg-base-100 shadow-xl px-6 flex items-center" >
+            <div className="card card-side bg-base-100 shadow-xl px-6 py-6 flex items-center" >
                 <figure><img src={photo} className="h-48" alt="Movie" /></figure>
                 <div className="flex justify-between w-full ">
                     <div>
